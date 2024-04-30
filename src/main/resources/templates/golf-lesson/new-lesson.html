@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/check.js}"></script>
+</head>
+<body>
+<!--    <script type="text/javascript" th:src="@{/js/check.js}"></script>-->
+<div class="content" layout:fragment="content">
+    <br>
+    <h2 style="text-align:center;">수강신청</h2>
+    <br>
+    <form id="frm" th:action="@{/golf-lesson/new}" method="post" th:object="${LessonDto}" class="border">
+        <div class="border border-top-0">
+            <label for="registMonth" class="col-sm-4 col-form-label border border-top-0 border-bottom-0 border-left-0" style="text-align: center;" >수강월</label>
+            <input type="text" id="registMonth" th:field="*{registMonth}"> 년, 월 6자리로 입력
+        </div>
+        <div class="border">
+            <label for="MemberName" class="col-sm-4 col-form-label border border-top-0 border-bottom-0" style="text-align: center;">회원명</label>
+            <select  id="MemberName"  onchange="memberCheck()">
+                <option value="">선택</option>
+                <option th:each="member : ${MemberDtoList}" th:value="${member.memberId}"
+                        th:text="${member.memberName}" th:attr="data-member-grade=${member.grade}"></option>
+            </select>
+            <input type="hidden" id="memberGrade" >
+        </div>
+        <div class="border border-top-0">
+            <label class="col-sm-4 col-form-label border border-top-0 border-bottom-0 border-left-0"
+                   style="text-align: center;" >회원번호</label>
+            <input type="text" id="memberIdDisplay" disabled >
+            <input type="hidden" id="memberId" th:field="*{memberId}">
+
+<!--            <input type="hidden" name="grade" id="grade" th:value="${MemberDtoList.grade}">-->
+<!--                for="memberIdDisplay"-->
+        </div>
+        <div class="border border-top-0">
+            <label class="col-sm-4 col-form-label border border-top-0 border-bottom-0 border-left-0"
+                   style="text-align: center;" >강의장소</label>
+            <select th:field="*{classArea}"  id="classArea" >
+                <option value="">선택</option>
+                <option th:each="area : ${T(com.example.golfmember.constant.ClassArea).values()}" th:value="${area}"
+                        th:text="${area}"></option>
+            </select>
+            <!--                for="memberIdDisplay"-->
+        </div>
+        <div class="border border-top-0">
+            <label class="col-sm-4 col-form-label border border-top-0 border-bottom-0 border-left-0"
+                   style="text-align: center;" >강의명</label>
+            <select id="className" onchange="selectClass()">
+                <option value="">선택</option>
+                <option th:each="className : ${TeacherDtoList}" th:value="${className.classPrice}"
+                        th:text="${className.className}" th:attr="data-teacher-code=${className.teacherCode}" ></option>
+            </select>
+            <input type="hidden" id="teacherCode" th:field="*{teacherCode}">
+            <!--                for="memberIdDisplay"-->
+        </div>
+        <div class="border border-top-0">
+            <label for="ClassTuitionDisplay" class="col-sm-4 col-form-label border border-top-0 border-bottom-0 border-left-0"
+                   style="text-align: center;" >수강료</label>
+            <input type="text" id="ClassTuitionDisplay"  disabled>
+            <input type="hidden" id="tuition" th:field="*{tuition}">
+        </div>
+        <div class="border border-top-0" style="display: flex; justify-content: center; align-items: center">
+<!--            <input type="hidden" name="ExamNo" th:value="*{examNo}">-->
+            <button class="btn btn-primary btn-block" type="button" onclick="check()" >수강신청</button>
+            <button class="btn btn-secondary btn-block" type="button" onclick="res()">다시쓰기</button>
+            <br>
+        </div>
+    </form>
+</div>
+</body>
+</html>
